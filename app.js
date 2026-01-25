@@ -1,7 +1,11 @@
+require("dotenv").config();
+
 const express = require("express");
 const path = require("path");
+
 const sessionMiddleware = require("./config/session");
 const authRoutes = require("./routes/authRoutes");
+const favoritesRoutes = require("./routes/favoritesRoutes");
 const requireAuth = require("./middleware/requireAuth");
 
 const app = express();
@@ -24,6 +28,7 @@ app.use((req, res, next) => {
 
 // routes
 app.use(authRoutes);
+app.use(favoritesRoutes);
 
 // protected home
 app.get("/", requireAuth, (req, res) => {
@@ -36,7 +41,6 @@ app.use((req, res) => {
 });
 
 const PORT = process.env.PORT || 3000;
-
 app.listen(PORT, "0.0.0.0", () => {
     console.log(`Server running on port ${PORT}`);
 });
